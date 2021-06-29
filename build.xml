@@ -1,16 +1,32 @@
 <?xml version="1.0"?>
 <project name="JettyDesktop" default="jar">
-
+	
+	<property name="major"     value="2"/>
+	<property name="minor"     value="4"/>
+	<property name="milestone" value="5"/>
+	<property name="pr"        value="5"/>
+	
+	<property name="root"      location="."/>
+	
 	<!-- Src directories -->
-	<property name="src" 			location="src"/>
+	<property name="src"       location="src"/>
 	
 	<!-- Build directories -->
-	<property name="build" 		location="./bin"/>
+	<property name="build"     location="./bin"/>
+	<property name="app"       value="_app"/>
+    <property name="data"      value="data"/>
 		
 	<!-- Output directories -->
-	<property name="rootdist" 		location="dist"/>
-	<property name="dist" 		location="dist/VoyantServer2_4-M5pr4"/>
-	<property name="jarpath" 	location="lib"/>
+	<property name="rootdist"  location="dist"/>
+	<property name="dist"      location="dist/VoyantServer${major}_${minor}-M${milestone}pr${pr}"/>
+	<property name="jarpath"   location="lib"/>
+	
+	<condition property="isWindows">
+        <os family="windows" />
+    </condition>
+    <condition property="isUnix">
+        <os family="unix" />
+    </condition>
 	
 	<path id="project.jars">
 		<fileset dir="${jarpath}" includes="*.jar" />
@@ -21,7 +37,9 @@
 	</path>
 	
 	<target name="init">
-		<mkdir dir="${build}"/>   
+		<mkdir dir="${build}"/>
+		<mkdir dir="${root}/${app}"/>
+		<mkdir dir="${root}/${data}"/>
 	</target>
 
 	<target name="clean">
@@ -40,7 +58,7 @@
 		<copy file="${src}/org/voyanttools/resources/voyant_small.png" todir="${build}/org/voyanttools/resources/"/>
 		<copy file="${src}/org/aw20/jettydesktop/rte/webdefault.xml" todir="${build}/org/aw20/jettydesktop/rte"/>
 	</target>
-
+	
 	<target name="buildbase">
 		<jar jarfile="${dist}/VoyantServer.jar" 
 			filesonly="true"
@@ -51,22 +69,34 @@
 				<attribute name="Main-Class" value="org.voyanttools.server.ui.VoyantServerStart"/>
 			</manifest>
 		</jar>
+		
 		<!-- be sure to grab Trombone classes -->
-		<copy todir="${dist}/_app/WEB-INF/classes">
+		<copy todir="${dist}/${app}/WEB-INF/classes">
 			<!-- hard-code location unfortunately -->
 			<fileset dir="${src}/../../trombone/target/classes"/>
 		</copy>
+		
+		<!-- copy Voyant app -->
+		<!-- NB: need to run Voyant maven build first so that src/main/webapp/WEB-INF/lib is created -->
+        <copy todir="${root}/${app}">
+            <!-- hard-code location unfortunately -->
+            <fileset dir="${src}/../../Voyant/src/main/webapp">
+                <exclude name="jsduck*"/>
+            	<exclude name="**/spyral/node_modules/**"/>
+            </fileset>
+        </copy>
+		
 		<copy file="./server-settings.txt" todir="${dist}/"/>
 		<copy file="./license-GPL3.txt" todir="${dist}/"/>
 		<copy file="./README.md" todir="${dist}/"/>
-		<copy todir="${dist}/data">
-			<fileset dir="data"/>
+		<copy todir="${dist}/${data}">
+			<fileset dir="${root}/${data}"/>
 		</copy>
 	</target>
 	
 	<target name="bigjar" depends="clean,compile,buildbase">
-		<copy todir="${dist}/_app">
-			<fileset dir="_app">
+		<copy todir="${dist}/${app}">
+			<fileset dir="${root}/${app}">
 				<exclude name="**/trombone*.jar"/>
 			</fileset>
 		</copy>
@@ -78,17 +108,66 @@
 	</target>
 	
 	<target name="jar" depends="clean,compile,buildbase">
-		<copy todir="${dist}/_app">
-			<fileset dir="_app">
+		<copy todir="${dist}/${app}">
+			<fileset dir="${root}/${app}">
 				<exclude name="**/stanford*models.jar"/>
 				<exclude name="**/trombone*.jar"/>
 			</fileset>
 		</copy>
-		<zip destfile="${rootdist}/VoyantServer2_4-M5pr4.zip" 
+		<zip destfile="${rootdist}/VoyantServer${major}_${minor}-M${milestone}pr${pr}.zip" 
 			filesonly="true"
 			compress="true">
 			<fileset dir="${rootdist}" />
 		</zip>
+	</target>
+	
+	<target name="server" depends="clean">
+		<!-- be sure to grab Trombone classes -->
+        <copy todir="${dist}/${app}/WEB-INF/classes">
+            <!-- hard-code location unfortunately -->
+            <fileset dir="${src}/../../trombone/target/classes"/>
+        </copy>
+        
+        <!-- copy Voyant app -->
+        <!-- NB: need to run Voyant maven build first so that src/main/webapp/WEB-INF/lib is created -->
+        <copy todir="${dist}/${app}">
+            <!-- hard-code location unfortunately -->
+            <fileset dir="${src}/../../Voyant/src/main/webapp">
+                <exclude name="jsduck*"/>
+            	<exclude name="**/spyral/node_modules/**"/>
+            	<exclude name="**/stanford*models.jar"/>
+                <exclude name="**/trombone*.jar"/>
+            </fileset>
+        </copy>
+        
+        <copy file="./server-settings.txt" todir="${dist}/"/>
+    </target>
+	
+	<!-- run the voyant maven build -->
+    <target name="build-voyant" depends="build-voyant-win,build-voyant-unix" />
+    <target name="build-voyant-win" if="isWindows">
+        <exec dir="${src}/../../Voyant" executable="cmd">
+            <arg line="/c mvn clean install" />
+        </exec>
+    </target>
+    <target name="build-voyant-unix" if="isUnix">
+        <exec dir="${src}/../../Voyant" executable="sh">
+            <arg line="-c 'mvn clean install'" />
+        </exec>
+    </target>
+	
+	<!-- run the custom maven goal to copy trombone deps to trombone/target/lib -->
+	<target name="copy-trombone-dependencies" depends="copy-trombone-dependencies-win,copy-trombone-dependencies-unix" />
+	<target name="copy-trombone-dependencies-win" if="isWindows">
+		<exec dir="${src}/../../trombone" executable="cmd">
+            <arg line="/c mvn org.apache.maven.plugins:maven-dependency-plugin:copy-dependencies@server-build" />
+        </exec>
+	</target>
+	<target name="copy-trombone-dependencies-unix" if="isUnix">
+		<exec dir="${src}/../../trombone" executable="cmd">
+            <arg line="-c 'mvn org.apache.maven.plugins:maven-dependency-plugin:copy-dependencies@server-build'" />
+        </exec>
+    </target>
+	
 		
-	</target>	
 </project>
