@@ -142,6 +142,27 @@
         
         <copy file="./server-settings.txt" todir="${dist}/"/>
     </target>
+    
+    <target name="server-nlp" depends="clean">
+        <!-- be sure to grab Trombone classes -->
+        <copy todir="${dist}/${app}/WEB-INF/classes">
+            <!-- hard-code location unfortunately -->
+            <fileset dir="${src}/../../trombone/target/classes"/>
+        </copy>
+        
+        <!-- copy Voyant app -->
+        <!-- NB: need to run Voyant maven build first so that src/main/webapp/WEB-INF/lib is created -->
+        <copy todir="${dist}/${app}">
+            <!-- hard-code location unfortunately -->
+            <fileset dir="${src}/../../Voyant/src/main/webapp">
+                <exclude name="jsduck*"/>
+                <exclude name="**/spyral/node_modules/**"/>
+                <exclude name="**/trombone*.jar"/>
+            </fileset>
+        </copy>
+        
+        <copy file="./server-settings.txt" todir="${dist}/"/>
+    </target>
 	
 	<!-- run the voyant maven build -->
     <target name="build-voyant" depends="build-voyant-win,build-voyant-unix" />
