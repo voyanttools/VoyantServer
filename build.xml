@@ -2,9 +2,8 @@
 <project xmlns:ivy="antlib:org.apache.ivy.ant" name="JettyDesktop" default="jar">
 	
 	<property name="major"     value="2"/>
-	<property name="minor"     value="4"/>
-	<property name="milestone" value="5"/>
-	<property name="pr"        value="5"/>
+	<property name="minor"     value="5"/>
+	<property name="patch"     value="0"/>
 	
 	<property name="root"      location="."/>
 	
@@ -18,7 +17,7 @@
 		
 	<!-- Output directories -->
 	<property name="rootdist"  location="dist"/>
-	<property name="dist"      location="dist/VoyantServer${major}_${minor}-M${milestone}pr${pr}"/>
+	<property name="dist"      location="dist/VoyantServer${major}_${minor}_${patch}"/>
 	<property name="jarpath"   location="lib"/>
 	
 	
@@ -144,7 +143,7 @@
 				<exclude name="**/trombone*.jar"/>
 			</fileset>
 		</copy>
-		<zip destfile="${rootdist}/VoyantServer${major}_${minor}-M${milestone}pr${pr}.zip" 
+		<zip destfile="${rootdist}/VoyantServer${major}_${minor}_${patch}.zip" 
 			filesonly="true"
 			compress="true">
 			<fileset dir="${rootdist}" />
