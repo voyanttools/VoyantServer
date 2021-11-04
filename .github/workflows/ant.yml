@@ -15,7 +15,17 @@ jobs:
       with:
         java-version: '8'
         distribution: 'adopt'
-        
+    
+    - name: Create maven settings.xml
+      uses: whelk-io/maven-settings-xml-action@v20
+      with:
+        servers: |
+          [{
+            "id": "trombone-mvn-repo",
+            "username": "voyanttools",
+            "password": "${{secrets.GITHUB_TOKEN}}"
+          }]
+    
     - name: Build with Ant
       run: ant -noinput -buildfile build.xml
       
