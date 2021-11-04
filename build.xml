@@ -227,7 +227,7 @@
         </exec>
     </target>
     <target name="copy-voyant-dependencies-unix" if="isUnix">
-        <exec dir="${jarpath}/Voyant" executable="cmd">
+        <exec dir="${jarpath}/Voyant" executable="sh">
             <arg line="-c 'mvn org.apache.maven.plugins:maven-dependency-plugin:copy-dependencies -DincludeScope=runtime -DexcludeArtifactIds=trombone'" />
         </exec>
     </target>
