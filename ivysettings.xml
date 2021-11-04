@@ -1,0 +1,16 @@
+<ivysettings>
+	<settings defaultResolver="maven2"/>
+	<resolvers>
+       <ibiblio name="maven2" m2compatible="true" />
+       <url name="github" m2compatible="true">
+           <artifact pattern="https://maven.pkg.github.com/[organisation]/[module]/[artifact]-[revision].[ext]" />
+           <!-- artifact pattern="https://github.com/voyanttools/trombone/packages/1068057" / -->
+       </url>
+	</resolvers>
+	<modules>
+	   <module organisation="voyanttools" name="*" resolver="github" />
+	</modules>
+	<property name="github.user" value="foo" override="false" />
+	<property name="github.token" value="bar" override="false" />
+	<credentials host="maven.pkg.github.com" realm="GitHub Package Registry" username="${github.user}" passwd="${github.token}" />
+</ivysettings>

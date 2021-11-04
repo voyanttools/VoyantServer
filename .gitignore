@@ -4,9 +4,13 @@
 
 .project
 .metadata
-bin/
-tmp/
-work/
+.ant
+_app
+bin
+data
+dist
+tmp
+work
 *.tmp
 *.bak
 *.swp
@@ -17,8 +21,6 @@ local.properties
 .settings/
 /target
 src/main/webapp/WEB-INF/classes
-/_app
-/dist
 /VoyantServerNoNlp.zip
 /VoyantServer.zip
 /logs
