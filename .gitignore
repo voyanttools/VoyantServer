@@ -9,6 +9,7 @@ _app
 bin
 data
 dist
+lib
 tmp
 work
 *.tmp
