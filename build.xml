@@ -27,6 +27,10 @@
 	<property name="ivy.jar.dir" value="${ivy.home}/lib" />
 	<property name="ivy.jar.file" value="${ivy.jar.dir}/ivy.jar" />
 	
+	<!-- maven dependency exclusions -->
+	<property name="exclude.artifactIds">trombone,asm-analysis,asm-commons,asm-tree,jakarta.servlet.jsp.jstl,jakarta.servlet.jsp.jstl-api,dom4j,google-collections</property>
+	<property name="exclude.groupIds">org.eclipse.jetty,org.eclipse.jetty.websocket,org.eclipse.sisu,org.sonatype.sisu,org.eclipse.jdt,org.eclipse.jgit,org.eclipse.jetty.toolchain,jakarta.annotation,jakarta.transaction,jakarta.xml.bind,com.sun.activation,org.eclipse.aether,org.apache.directory.api,org.apache.velocity,org.apache.maven,org.apache.maven.doxia,org.apache.maven.plugins,org.apache.maven.shared,org.apache.mina,org.apache.xbean,org.codehaus.plexus,org.sonatype.plexus,org.iq80.snappy,org.mortbay.jasper,classworlds,com.sun.xml.bind,com.jcraft,com.thoughtworks.qdox,javax.enterprise</property>
+	
 	
 	
 	<condition property="isWindows">
@@ -48,11 +52,9 @@
 	
 	
 	
-	
 	<target name="init">
 		<mkdir dir="${build}"/>
 		<mkdir dir="${root}/${app}"/>
-		<mkdir dir="${root}/${data}"/>
 		<mkdir dir="${jarpath}"/>
 	</target>
 
@@ -80,9 +82,7 @@
 		<copy file="${src}/org/aw20/logo/aw20.jpg" todir="${build}/org/aw20/logo/"/>
 		<copy file="${src}/org/voyanttools/resources/voyant_small.png" todir="${build}/org/voyanttools/resources/"/>
 		<copy file="${src}/org/aw20/jettydesktop/rte/webdefault.xml" todir="${build}/org/aw20/jettydesktop/rte"/>
-	</target>
-	
-	<target name="buildbase" depends="build-trombone,build-voyant,copy-voyant-dependencies">
+		
 		<jar jarfile="${dist}/VoyantServer.jar" filesonly="true" compress="true">
 			<fileset dir="${build}" />
 			<zipgroupfileset dir="${jarpath}" includes="*.jar" />
@@ -90,59 +90,43 @@
 				<attribute name="Main-Class" value="org.voyanttools.server.ui.VoyantServerStart"/>
 			</manifest>
 		</jar>
+	</target>
 		
-		<!-- get trombone classes -->
+	
+	<target name="populate-dist" depends="build-trombone,build-voyant,copy-voyant-dependencies">
+		<!-- copy trombone classes -->
 		<copy todir="${dist}/${app}/WEB-INF/classes">
 			<fileset dir="${jarpath}/trombone/target/classes"/>
 		</copy>
 		
-		<!-- get voyant/trombone libs -->
+		<!-- copy voyant/trombone libs -->
 		<mkdir dir="${dist}/${app}/WEB-INF/lib"/>
 		<copy todir="${dist}/${app}/WEB-INF/lib">
 			<fileset dir="${jarpath}/Voyant/target/dependency"/>
 		</copy>
 		
 		<!-- copy Voyant app -->
-		<!-- NB: need to run Voyant maven build first so that src/main/webapp/WEB-INF/lib is created -->
-		<copy todir="${root}/${app}">
-			<!-- hard-code location unfortunately -->
-			<fileset dir="${jarpath}/Voyant/src/main/webapp">
-				<exclude name="jsduck*"/>
-				<exclude name="**/spyral/node_modules/**"/>
-			</fileset>
+		<copy todir="${dist}/${app}">
+			<fileset dir="${jarpath}/Voyant/src/main/webapp"/>
 		</copy>
+
+		<mkdir dir="${dist}/${data}"/>
 		
 		<copy file="./server-settings.txt" todir="${dist}/"/>
 		<copy file="./license-GPL3.txt" todir="${dist}/"/>
 		<copy file="./README.md" todir="${dist}/"/>
-		<copy todir="${dist}/${data}">
-			<fileset dir="${root}/${data}"/>
-		</copy>
 	</target>
 	
 	
-	
-	
-	<target name="bigjar" depends="clean,compile,buildbase">
-		<copy todir="${dist}/${app}">
-			<fileset dir="${root}/${app}">
-				<exclude name="**/trombone*.jar"/>
+
+	<!-- Create a jar to run a local version of Voyant -->
+	<target name="jar" depends="clean,compile,populate-dist">
+		<!-- delete the nlp models file -->
+		<delete>
+			<fileset dir="${rootdist}">
+				<include name="**/stanford*models.jar"/>
 			</fileset>
-		</copy>
-		<zip destfile="VoyantServerWithModels.zip" 
-			filesonly="true"
- 			compress="true">
-			<fileset dir="${rootdist}" />
-		</zip>
-	</target>
-	
-	<target name="jar" depends="clean,compile,buildbase">
-		<copy todir="${dist}/${app}">
-			<fileset dir="${root}/${app}">
-				<exclude name="**/stanford*models.jar"/>
-				<exclude name="**/trombone*.jar"/>
-			</fileset>
-		</copy>
+		</delete>
 		<zip destfile="${rootdist}/VoyantServer${major}_${minor}_${patch}.zip" 
 			filesonly="true"
 			compress="true">
@@ -150,52 +134,17 @@
 		</zip>
 	</target>
 	
-	
-	
-	
-	<target name="server" depends="clean">
-		<!-- be sure to grab Trombone classes -->
-		<copy todir="${dist}/${app}/WEB-INF/classes">
-			<!-- hard-code location unfortunately -->
-			<fileset dir="${src}/../../trombone/target/classes"/>
-		</copy>
-		
-		<!-- copy Voyant app -->
-		<!-- NB: need to run Voyant maven build first so that src/main/webapp/WEB-INF/lib is created -->
-		<copy todir="${dist}/${app}">
-			<!-- hard-code location unfortunately -->
-			<fileset dir="${src}/../../Voyant/src/main/webapp">
-				<exclude name="jsduck*"/>
-				<exclude name="**/spyral/node_modules/**"/>
-				<exclude name="**/stanford*models.jar"/>
-				<exclude name="**/trombone*.jar"/>
-			</fileset>
-		</copy>
-		
-		<copy file="./server-settings.txt" todir="${dist}/"/>
+	<!-- Create a jar to run a local version of Voyant, including nlp -->
+	<target name="jar-nlp" depends="clean,compile,populate-dist">
+		<zip destfile="VoyantServerWithModels.zip" 
+			filesonly="true"
+ 			compress="true">
+			<fileset dir="${rootdist}" />
+		</zip>
 	</target>
+
+
 	
-	<target name="server-nlp" depends="clean">
-		<!-- be sure to grab Trombone classes -->
-		<copy todir="${dist}/${app}/WEB-INF/classes">
-			<!-- hard-code location unfortunately -->
-			<fileset dir="${src}/../../trombone/target/classes"/>
-		</copy>
-		
-		<!-- copy Voyant app -->
-		<!-- NB: need to run Voyant maven build first so that src/main/webapp/WEB-INF/lib is created -->
-		<copy todir="${dist}/${app}">
-			<!-- hard-code location unfortunately -->
-			<fileset dir="${src}/../../Voyant/src/main/webapp">
-				<exclude name="jsduck*"/>
-				<exclude name="**/spyral/node_modules/**"/>
-				<exclude name="**/trombone*.jar"/>
-			</fileset>
-		</copy>
-		
-		<copy file="./server-settings.txt" todir="${dist}/"/>
-	</target>
-		
 	<!--
 	   Voyant related tasks
 	-->
@@ -218,22 +167,22 @@
 		</exec>
 	</target>
 	
-	<!-- run the custom maven goal to copy voyant deps to voyant/target/dependency -->
+	<!-- run the custom maven goal to copy voyant/trombone deps to voyant/target/dependency -->
 	<target name="copy-voyant-dependencies" depends="copy-voyant-dependencies-win,copy-voyant-dependencies-unix" />
 	<target name="copy-voyant-dependencies-win" if="isWindows">
 		<exec dir="${jarpath}/Voyant" executable="cmd">
 			<arg line="/c mvn org.apache.maven.plugins:maven-dependency-plugin:copy-dependencies
 				-DincludeScope=runtime
-				-DexcludeArtifactIds=trombone,asm-analysis,asm-commons,asm-tree,jakarta.servlet.jsp.jstl,jakarta.servlet.jsp.jstl-api,dom4j
-				-DexcludeGroupIds=org.eclipse.jetty,org.eclipse.jetty.websocket,org.eclipse.sisu,org.sonatype.sisu,org.eclipse.jdt,org.eclipse.jgit,org.eclipse.jetty.toolchain,jakarta.annotation,jakarta.transaction,jakarta.xml.bind,com.sun.activation,org.eclipse.aether,org.apache.directory.api,org.apache.velocity,org.apache.maven,org.apache.maven.doxia,org.apache.maven.plugins,org.apache.maven.shared,org.apache.mina,org.apache.xbean,org.codehaus.plexus,org.sonatype.plexus,org.iq80.snappy,org.mortbay.jasper,classworlds,com.sun.xml.bind,com.jcraft,com.thoughtworks.qdox,javax.enterprise" />
+				-DexcludeArtifactIds=${exclude.artifactIds}
+				-DexcludeGroupIds=${exclude.groupIds}" />
 		</exec>
 	</target>
 	<target name="copy-voyant-dependencies-unix" if="isUnix">
 		<exec dir="${jarpath}/Voyant" executable="sh">
 			<arg line="-c 'mvn org.apache.maven.plugins:maven-dependency-plugin:copy-dependencies
 				-DincludeScope=runtime
-				-DexcludeArtifactIds=trombone,asm-analysis,asm-commons,asm-tree,jakarta.servlet.jsp.jstl,jakarta.servlet.jsp.jstl-api,dom4j
-				-DexcludeGroupIds=org.eclipse.jetty,org.eclipse.jetty.websocket,org.eclipse.sisu,org.sonatype.sisu,org.eclipse.jdt,org.eclipse.jgit,org.eclipse.jetty.toolchain,jakarta.annotation,jakarta.transaction,jakarta.xml.bind,com.sun.activation,org.eclipse.aether,org.apache.directory.api,org.apache.velocity,org.apache.maven,org.apache.maven.doxia,org.apache.maven.plugins,org.apache.maven.shared,org.apache.mina,org.apache.xbean,org.codehaus.plexus,org.sonatype.plexus,org.iq80.snappy,org.mortbay.jasper,classworlds,com.sun.xml.bind,com.jcraft,com.thoughtworks.qdox,javax.enterprise'" />
+				-DexcludeArtifactIds=${exclude.artifactIds}
+				-DexcludeGroupIds=${exclude.groupIds}'" />
 		</exec>
 	</target>
 	
