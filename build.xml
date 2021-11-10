@@ -222,12 +222,18 @@
     <target name="copy-voyant-dependencies" depends="copy-voyant-dependencies-win,copy-voyant-dependencies-unix" />
     <target name="copy-voyant-dependencies-win" if="isWindows">
         <exec dir="${jarpath}/Voyant" executable="cmd">
-            <arg line="/c mvn org.apache.maven.plugins:maven-dependency-plugin:copy-dependencies -DincludeScope=runtime -DexcludeArtifactIds=trombone" />
+            <arg line="/c mvn org.apache.maven.plugins:maven-dependency-plugin:copy-dependencies
+            	-DincludeScope=runtime
+            	-DexcludeArtifactIds=trombone,asm-analysis,asm-commons,asm-tree,jakarta.servlet.jsp.jstl,jakarta.servlet.jsp.jstl-api,dom4j
+            	-DexcludeGroupIds=org.eclipse.jetty,org.eclipse.jetty.websocket,org.eclipse.sisu,org.sonatype.sisu,org.eclipse.jdt,org.eclipse.jgit,org.eclipse.jetty.toolchain,jakarta.annotation,jakarta.transaction,jakarta.xml.bind,com.sun.activation,org.eclipse.aether,org.apache.directory.api,org.apache.velocity,org.apache.maven,org.apache.maven.doxia,org.apache.maven.plugins,org.apache.maven.shared,org.apache.mina,org.apache.xbean,org.codehaus.plexus,org.sonatype.plexus,org.iq80.snappy,org.mortbay.jasper,classworlds,com.sun.xml.bind,com.jcraft,com.thoughtworks.qdox,javax.enterprise" />
         </exec>
     </target>
     <target name="copy-voyant-dependencies-unix" if="isUnix">
         <exec dir="${jarpath}/Voyant" executable="sh">
-            <arg line="-c 'mvn org.apache.maven.plugins:maven-dependency-plugin:copy-dependencies -DincludeScope=runtime -DexcludeArtifactIds=trombone'" />
+            <arg line="-c 'mvn org.apache.maven.plugins:maven-dependency-plugin:copy-dependencies
+            	-DincludeScope=runtime
+            	-DexcludeArtifactIds=trombone,asm-analysis,asm-commons,asm-tree,jakarta.servlet.jsp.jstl,jakarta.servlet.jsp.jstl-api,dom4j
+            	-DexcludeGroupIds=org.eclipse.jetty,org.eclipse.jetty.websocket,org.eclipse.sisu,org.sonatype.sisu,org.eclipse.jdt,org.eclipse.jgit,org.eclipse.jetty.toolchain,jakarta.annotation,jakarta.transaction,jakarta.xml.bind,com.sun.activation,org.eclipse.aether,org.apache.directory.api,org.apache.velocity,org.apache.maven,org.apache.maven.doxia,org.apache.maven.plugins,org.apache.maven.shared,org.apache.mina,org.apache.xbean,org.codehaus.plexus,org.sonatype.plexus,org.iq80.snappy,org.mortbay.jasper,classworlds,com.sun.xml.bind,com.jcraft,com.thoughtworks.qdox,javax.enterprise'" />
         </exec>
     </target>
 	
