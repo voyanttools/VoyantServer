@@ -13,7 +13,7 @@
 	<!-- Build directories -->
 	<property name="build"     location="./bin"/>
 	<property name="app"       value="_app"/>
-    <property name="data"      value="data"/>
+	<property name="data"      value="data"/>
 		
 	<!-- Output directories -->
 	<property name="rootdist"  location="dist"/>
@@ -21,20 +21,20 @@
 	<property name="jarpath"   location="lib"/>
 	
 	
-    <!-- Ivy-related settings -->
+	<!-- Ivy-related settings -->
 	<property name="ivy.install.version" value="2.5.0" />
-    <property name="ivy.home" value="${root}/.ant" />
-    <property name="ivy.jar.dir" value="${ivy.home}/lib" />
-    <property name="ivy.jar.file" value="${ivy.jar.dir}/ivy.jar" />
+	<property name="ivy.home" value="${root}/.ant" />
+	<property name="ivy.jar.dir" value="${ivy.home}/lib" />
+	<property name="ivy.jar.file" value="${ivy.jar.dir}/ivy.jar" />
 	
 	
 	
 	<condition property="isWindows">
-        <os family="windows" />
-    </condition>
-    <condition property="isUnix">
-        <os family="unix" />
-    </condition>
+		<os family="windows" />
+	</condition>
+	<condition property="isUnix">
+		<os family="unix" />
+	</condition>
 	
 	
 	
@@ -65,8 +65,8 @@
 	</target>
 	
 	<target name="clean-all" depends="clean" description="clean ivy cache">
-        <ivy:cleancache />
-    </target>
+		<ivy:cleancache />
+	</target>
 	
 	
 
@@ -104,13 +104,13 @@
 		
 		<!-- copy Voyant app -->
 		<!-- NB: need to run Voyant maven build first so that src/main/webapp/WEB-INF/lib is created -->
-        <copy todir="${root}/${app}">
-            <!-- hard-code location unfortunately -->
-            <fileset dir="${jarpath}/Voyant/src/main/webapp">
-                <exclude name="jsduck*"/>
-            	<exclude name="**/spyral/node_modules/**"/>
-            </fileset>
-        </copy>
+		<copy todir="${root}/${app}">
+			<!-- hard-code location unfortunately -->
+			<fileset dir="${jarpath}/Voyant/src/main/webapp">
+				<exclude name="jsduck*"/>
+				<exclude name="**/spyral/node_modules/**"/>
+			</fileset>
+		</copy>
 		
 		<copy file="./server-settings.txt" todir="${dist}/"/>
 		<copy file="./license-GPL3.txt" todir="${dist}/"/>
@@ -155,133 +155,133 @@
 	
 	<target name="server" depends="clean">
 		<!-- be sure to grab Trombone classes -->
-        <copy todir="${dist}/${app}/WEB-INF/classes">
-            <!-- hard-code location unfortunately -->
-            <fileset dir="${src}/../../trombone/target/classes"/>
-        </copy>
-        
-        <!-- copy Voyant app -->
-        <!-- NB: need to run Voyant maven build first so that src/main/webapp/WEB-INF/lib is created -->
-        <copy todir="${dist}/${app}">
-            <!-- hard-code location unfortunately -->
-            <fileset dir="${src}/../../Voyant/src/main/webapp">
-                <exclude name="jsduck*"/>
-            	<exclude name="**/spyral/node_modules/**"/>
-            	<exclude name="**/stanford*models.jar"/>
-                <exclude name="**/trombone*.jar"/>
-            </fileset>
-        </copy>
-        
-        <copy file="./server-settings.txt" todir="${dist}/"/>
-    </target>
-    
-    <target name="server-nlp" depends="clean">
-        <!-- be sure to grab Trombone classes -->
-        <copy todir="${dist}/${app}/WEB-INF/classes">
-            <!-- hard-code location unfortunately -->
-            <fileset dir="${src}/../../trombone/target/classes"/>
-        </copy>
-        
-        <!-- copy Voyant app -->
-        <!-- NB: need to run Voyant maven build first so that src/main/webapp/WEB-INF/lib is created -->
-        <copy todir="${dist}/${app}">
-            <!-- hard-code location unfortunately -->
-            <fileset dir="${src}/../../Voyant/src/main/webapp">
-                <exclude name="jsduck*"/>
-                <exclude name="**/spyral/node_modules/**"/>
-                <exclude name="**/trombone*.jar"/>
-            </fileset>
-        </copy>
-        
-        <copy file="./server-settings.txt" todir="${dist}/"/>
-    </target>
+		<copy todir="${dist}/${app}/WEB-INF/classes">
+			<!-- hard-code location unfortunately -->
+			<fileset dir="${src}/../../trombone/target/classes"/>
+		</copy>
+		
+		<!-- copy Voyant app -->
+		<!-- NB: need to run Voyant maven build first so that src/main/webapp/WEB-INF/lib is created -->
+		<copy todir="${dist}/${app}">
+			<!-- hard-code location unfortunately -->
+			<fileset dir="${src}/../../Voyant/src/main/webapp">
+				<exclude name="jsduck*"/>
+				<exclude name="**/spyral/node_modules/**"/>
+				<exclude name="**/stanford*models.jar"/>
+				<exclude name="**/trombone*.jar"/>
+			</fileset>
+		</copy>
+		
+		<copy file="./server-settings.txt" todir="${dist}/"/>
+	</target>
+	
+	<target name="server-nlp" depends="clean">
+		<!-- be sure to grab Trombone classes -->
+		<copy todir="${dist}/${app}/WEB-INF/classes">
+			<!-- hard-code location unfortunately -->
+			<fileset dir="${src}/../../trombone/target/classes"/>
+		</copy>
+		
+		<!-- copy Voyant app -->
+		<!-- NB: need to run Voyant maven build first so that src/main/webapp/WEB-INF/lib is created -->
+		<copy todir="${dist}/${app}">
+			<!-- hard-code location unfortunately -->
+			<fileset dir="${src}/../../Voyant/src/main/webapp">
+				<exclude name="jsduck*"/>
+				<exclude name="**/spyral/node_modules/**"/>
+				<exclude name="**/trombone*.jar"/>
+			</fileset>
+		</copy>
+		
+		<copy file="./server-settings.txt" todir="${dist}/"/>
+	</target>
 		
 	<!--
-       Voyant related tasks
-    -->
-    <target name="download-voyant" depends="init">
-        <exec executable="git" dir="${jarpath}" failifexecutionfails="true" >
-            <arg line="clone https://github.com/voyanttools/Voyant.git"/>
-        </exec> 
-    </target>
+	   Voyant related tasks
+	-->
+	<target name="download-voyant" depends="init">
+		<exec executable="git" dir="${jarpath}" failifexecutionfails="true" >
+			<arg line="clone https://github.com/voyanttools/Voyant.git"/>
+		</exec> 
+	</target>
 	
 	<!-- run the voyant maven build -->
-    <target name="build-voyant" depends="download-voyant,build-voyant-win,build-voyant-unix" />
-    <target name="build-voyant-win" if="isWindows">
-        <exec dir="${jarpath}/Voyant" executable="cmd">
-            <arg line="/c mvn clean compile" />
-        </exec>
-    </target>
-    <target name="build-voyant-unix" if="isUnix">
-        <exec dir="${jarpath}/Voyant" executable="sh">
-            <arg line="-c 'mvn clean compile'" />
-        </exec>
-    </target>
+	<target name="build-voyant" depends="download-voyant,build-voyant-win,build-voyant-unix" />
+	<target name="build-voyant-win" if="isWindows">
+		<exec dir="${jarpath}/Voyant" executable="cmd">
+			<arg line="/c mvn clean compile" />
+		</exec>
+	</target>
+	<target name="build-voyant-unix" if="isUnix">
+		<exec dir="${jarpath}/Voyant" executable="sh">
+			<arg line="-c 'mvn clean compile'" />
+		</exec>
+	</target>
 	
 	<!-- run the custom maven goal to copy voyant deps to voyant/target/dependency -->
-    <target name="copy-voyant-dependencies" depends="copy-voyant-dependencies-win,copy-voyant-dependencies-unix" />
-    <target name="copy-voyant-dependencies-win" if="isWindows">
-        <exec dir="${jarpath}/Voyant" executable="cmd">
-            <arg line="/c mvn org.apache.maven.plugins:maven-dependency-plugin:copy-dependencies
-            	-DincludeScope=runtime
-            	-DexcludeArtifactIds=trombone,asm-analysis,asm-commons,asm-tree,jakarta.servlet.jsp.jstl,jakarta.servlet.jsp.jstl-api,dom4j
-            	-DexcludeGroupIds=org.eclipse.jetty,org.eclipse.jetty.websocket,org.eclipse.sisu,org.sonatype.sisu,org.eclipse.jdt,org.eclipse.jgit,org.eclipse.jetty.toolchain,jakarta.annotation,jakarta.transaction,jakarta.xml.bind,com.sun.activation,org.eclipse.aether,org.apache.directory.api,org.apache.velocity,org.apache.maven,org.apache.maven.doxia,org.apache.maven.plugins,org.apache.maven.shared,org.apache.mina,org.apache.xbean,org.codehaus.plexus,org.sonatype.plexus,org.iq80.snappy,org.mortbay.jasper,classworlds,com.sun.xml.bind,com.jcraft,com.thoughtworks.qdox,javax.enterprise" />
-        </exec>
-    </target>
-    <target name="copy-voyant-dependencies-unix" if="isUnix">
-        <exec dir="${jarpath}/Voyant" executable="sh">
-            <arg line="-c 'mvn org.apache.maven.plugins:maven-dependency-plugin:copy-dependencies
-            	-DincludeScope=runtime
-            	-DexcludeArtifactIds=trombone,asm-analysis,asm-commons,asm-tree,jakarta.servlet.jsp.jstl,jakarta.servlet.jsp.jstl-api,dom4j
-            	-DexcludeGroupIds=org.eclipse.jetty,org.eclipse.jetty.websocket,org.eclipse.sisu,org.sonatype.sisu,org.eclipse.jdt,org.eclipse.jgit,org.eclipse.jetty.toolchain,jakarta.annotation,jakarta.transaction,jakarta.xml.bind,com.sun.activation,org.eclipse.aether,org.apache.directory.api,org.apache.velocity,org.apache.maven,org.apache.maven.doxia,org.apache.maven.plugins,org.apache.maven.shared,org.apache.mina,org.apache.xbean,org.codehaus.plexus,org.sonatype.plexus,org.iq80.snappy,org.mortbay.jasper,classworlds,com.sun.xml.bind,com.jcraft,com.thoughtworks.qdox,javax.enterprise'" />
-        </exec>
-    </target>
+	<target name="copy-voyant-dependencies" depends="copy-voyant-dependencies-win,copy-voyant-dependencies-unix" />
+	<target name="copy-voyant-dependencies-win" if="isWindows">
+		<exec dir="${jarpath}/Voyant" executable="cmd">
+			<arg line="/c mvn org.apache.maven.plugins:maven-dependency-plugin:copy-dependencies
+				-DincludeScope=runtime
+				-DexcludeArtifactIds=trombone,asm-analysis,asm-commons,asm-tree,jakarta.servlet.jsp.jstl,jakarta.servlet.jsp.jstl-api,dom4j
+				-DexcludeGroupIds=org.eclipse.jetty,org.eclipse.jetty.websocket,org.eclipse.sisu,org.sonatype.sisu,org.eclipse.jdt,org.eclipse.jgit,org.eclipse.jetty.toolchain,jakarta.annotation,jakarta.transaction,jakarta.xml.bind,com.sun.activation,org.eclipse.aether,org.apache.directory.api,org.apache.velocity,org.apache.maven,org.apache.maven.doxia,org.apache.maven.plugins,org.apache.maven.shared,org.apache.mina,org.apache.xbean,org.codehaus.plexus,org.sonatype.plexus,org.iq80.snappy,org.mortbay.jasper,classworlds,com.sun.xml.bind,com.jcraft,com.thoughtworks.qdox,javax.enterprise" />
+		</exec>
+	</target>
+	<target name="copy-voyant-dependencies-unix" if="isUnix">
+		<exec dir="${jarpath}/Voyant" executable="sh">
+			<arg line="-c 'mvn org.apache.maven.plugins:maven-dependency-plugin:copy-dependencies
+				-DincludeScope=runtime
+				-DexcludeArtifactIds=trombone,asm-analysis,asm-commons,asm-tree,jakarta.servlet.jsp.jstl,jakarta.servlet.jsp.jstl-api,dom4j
+				-DexcludeGroupIds=org.eclipse.jetty,org.eclipse.jetty.websocket,org.eclipse.sisu,org.sonatype.sisu,org.eclipse.jdt,org.eclipse.jgit,org.eclipse.jetty.toolchain,jakarta.annotation,jakarta.transaction,jakarta.xml.bind,com.sun.activation,org.eclipse.aether,org.apache.directory.api,org.apache.velocity,org.apache.maven,org.apache.maven.doxia,org.apache.maven.plugins,org.apache.maven.shared,org.apache.mina,org.apache.xbean,org.codehaus.plexus,org.sonatype.plexus,org.iq80.snappy,org.mortbay.jasper,classworlds,com.sun.xml.bind,com.jcraft,com.thoughtworks.qdox,javax.enterprise'" />
+		</exec>
+	</target>
 	
 	
 	
 	
 	<!--
 	   Trombone related tasks
-    -->
+	-->
 	<target name="download-trombone" depends="init">
 		<exec executable="git" dir="${jarpath}" failifexecutionfails="true" >
-	        <arg line="clone https://github.com/voyanttools/trombone.git"/>
-	    </exec> 
+			<arg line="clone https://github.com/voyanttools/trombone.git"/>
+		</exec> 
 	</target>
 	
 	<target name="build-trombone" depends="download-trombone,build-trombone-win,build-trombone-unix" />
-    <target name="build-trombone-win" if="isWindows">
-        <exec dir="${jarpath}/trombone" executable="cmd">
-            <arg line="/c mvn clean compile" />
-        </exec>
-    </target>
-    <target name="build-trombone-unix" if="isUnix">
-        <exec dir="${jarpath}/trombone" executable="sh">
-            <arg line="-c 'mvn clean compile'" />
-        </exec>
-    </target>
+	<target name="build-trombone-win" if="isWindows">
+		<exec dir="${jarpath}/trombone" executable="cmd">
+			<arg line="/c mvn clean compile" />
+		</exec>
+	</target>
+	<target name="build-trombone-unix" if="isUnix">
+		<exec dir="${jarpath}/trombone" executable="sh">
+			<arg line="-c 'mvn clean compile'" />
+		</exec>
+	</target>
 	
 	
 	
 	<!--
-       Ivy related tasks
-    -->
-    <target name="get-dependencies" depends="init-ivy">
-        <ivy:retrieve conf="default" pattern="lib/[artifact](-[classifier])-[revision].[ext]" />
-    </target>
+	   Ivy related tasks
+	-->
+	<target name="get-dependencies" depends="init-ivy">
+		<ivy:retrieve conf="default" pattern="lib/[artifact](-[classifier])-[revision].[ext]" />
+	</target>
 
-    <target name="init-ivy" depends="download-ivy">
-        <path id="ivy.lib.path">
-            <fileset dir="${ivy.jar.dir}" includes="*.jar" />
-        </path>
-        <taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpathref="ivy.lib.path" />
-    </target>
+	<target name="init-ivy" depends="download-ivy">
+		<path id="ivy.lib.path">
+			<fileset dir="${ivy.jar.dir}" includes="*.jar" />
+		</path>
+		<taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpathref="ivy.lib.path" />
+	</target>
 
-    <target name="download-ivy" unless="offline">
-        <mkdir dir="${ivy.jar.dir}" />
-        <get src="https://repo1.maven.org/maven2/org/apache/ivy/ivy/${ivy.install.version}/ivy-${ivy.install.version}.jar"
-             dest="${ivy.jar.file}" usetimestamp="true" />
-    </target>
+	<target name="download-ivy" unless="offline">
+		<mkdir dir="${ivy.jar.dir}" />
+		<get src="https://repo1.maven.org/maven2/org/apache/ivy/ivy/${ivy.install.version}/ivy-${ivy.install.version}.jar"
+			 dest="${ivy.jar.file}" usetimestamp="true" />
+	</target>
 	
 	
 	
