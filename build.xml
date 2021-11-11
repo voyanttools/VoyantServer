@@ -127,7 +127,6 @@
 			</fileset>
 		</delete>
 		<zip destfile="${rootdist}/VoyantServer${major}_${minor}_${patch}.zip" 
-			filesonly="true"
 			compress="true">
 			<fileset dir="${rootdist}" />
 		</zip>
@@ -135,8 +134,7 @@
 	
 	<!-- Create a jar to run a local version of Voyant, including nlp -->
 	<target name="jar-nlp" depends="clean,compile,populate-dist">
-		<zip destfile="VoyantServerWithModels.zip" 
-			filesonly="true"
+		<zip destfile="VoyantServerWithModels${major}_${minor}_${patch}.zip"
  			compress="true">
 			<fileset dir="${rootdist}" />
 		</zip>
