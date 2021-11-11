@@ -22,7 +22,4 @@ local.properties
 .settings/
 /target
 src/main/webapp/WEB-INF/classes
-/VoyantServerNoNlp.zip
-/VoyantServer.zip
-/logs
-/data
+
