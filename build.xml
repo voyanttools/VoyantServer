@@ -109,7 +109,8 @@
 			<fileset dir="${jarpath}/Voyant/src/main/webapp"/>
 		</copy>
 
-		<mkdir dir="${dist}/${data}"/>
+		<mkdir dir="${dist}/${data}/trombone5_2"/>
+		<unzip src="data.zip" dest="${dist}/${data}/trombone5_2"/>
 		
 		<copy file="./server-settings.txt" todir="${dist}/"/>
 		<copy file="./license-GPL3.txt" todir="${dist}/"/>
