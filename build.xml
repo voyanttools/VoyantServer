@@ -3,7 +3,7 @@
 	
 	<property name="major"     value="2"/>
 	<property name="minor"     value="5"/>
-	<property name="patch"     value="0"/>
+	<property name="patch"     value="1"/>
 	
 	<property name="root"      location="."/>
 	
@@ -135,7 +135,7 @@
 	
 	<!-- Create a jar to run a local version of Voyant, including nlp -->
 	<target name="jar-nlp" depends="clean,compile,populate-dist">
-		<zip destfile="VoyantServerWithModels${major}_${minor}_${patch}.zip"
+		<zip destfile="${rootdist}/VoyantServerWithModels${major}_${minor}_${patch}.zip"
  			compress="true">
 			<fileset dir="${rootdist}" />
 		</zip>
