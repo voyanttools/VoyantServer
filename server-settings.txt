@@ -66,3 +66,8 @@ open_menu =
 # may be a new corpus based on a subset of an existing corpus. The default value is true
 # (to allow new input), set this to false to prevent new input from being added.
 allow_input = true
+
+# This allows you to prevent the user from easily downloading the corpus from the Documents panel.
+# The default value is true (to allow downloads), set this to false to hide the download and
+# modify buttons in the Documents panel.
+allow_download = true

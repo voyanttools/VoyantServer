@@ -91,6 +91,9 @@ public class Executor extends Object {
 		if (options.getAllowInput()==false) {
 			programArgs.add("-Dorg.voyanttools.server.allowinput=false");
 		}
+		if (options.getAllowDownload()==false) {
+			programArgs.add("-Dorg.voyanttools.server.allowdownload=false");
+		}
 
 		if (options.containsKey("open_menu")) {
 			String openMenu = options.get("open_menu");

@@ -42,6 +42,7 @@ public class ServerConfigMap extends HashMap<String, String> implements Serializ
 			setMemoryJVM("1024");
 			setLogsFile(false);
 			setAllowInput(true);
+			setAllowDownload(true);
 		}};
 	}
 	
@@ -141,5 +142,13 @@ public class ServerConfigMap extends HashMap<String, String> implements Serializ
 
 	public boolean getAllowInput() {
 		return this.containsKey("allow_input") && get("allow_input").equals("false") ? false : true;
+	}
+	
+	public void setAllowDownload(boolean allow) {
+		put("allow_download", allow ? "true" : "false");
+	}
+
+	public boolean getAllowDownload() {
+		return this.containsKey("allow_download") && get("allow_download").equals("false") ? false : true;
 	}
 }
