@@ -30,7 +30,5 @@
 		<dependency org="org.eclipse.jetty.toolchain"   name="jetty-schemas" rev="3.1.2" />
 		<dependency org="org.apache.taglibs"            name="taglibs-standard-impl" rev="1.2.5" conf="runtime" />
 		<dependency org="org.apache.taglibs"            name="taglibs-standard-spec" rev="1.2.5" />
-
-		<!-- dependency org="voyanttools"                   name="trombone" rev="5.2.1" / -->
 	</dependencies>
 </ivy-module>

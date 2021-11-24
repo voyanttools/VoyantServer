@@ -3,7 +3,7 @@
 	
 	<property name="major"     value="2"/>
 	<property name="minor"     value="5"/>
-	<property name="patch"     value="1"/>
+	<property name="patch"     value="2"/>
 	
 	<property name="root"      location="."/>
 	
@@ -26,9 +26,6 @@
 	<property name="ivy.home" value="${root}/.ant" />
 	<property name="ivy.jar.dir" value="${ivy.home}/lib" />
 	<property name="ivy.jar.file" value="${ivy.jar.dir}/ivy.jar" />
-	
-	<!-- maven dependency exclusions -->
-	<property name="exclude.artifactIds">trombone</property>
 	
 	
 	
@@ -92,11 +89,7 @@
 	</target>
 		
 	
-	<target name="populate-dist" depends="build-trombone,build-voyant,copy-voyant-dependencies">
-		<!-- copy trombone classes -->
-		<copy todir="${dist}/${app}/WEB-INF/classes">
-			<fileset dir="${jarpath}/trombone/target/classes"/>
-		</copy>
+	<target name="populate-dist" depends="build-voyant,copy-voyant-dependencies">
 		
 		<!-- copy voyant/trombone libs -->
 		<mkdir dir="${dist}/${app}/WEB-INF/lib"/>
@@ -170,39 +163,13 @@
 	<target name="copy-voyant-dependencies-win" if="isWindows">
 		<exec dir="${jarpath}/Voyant" executable="cmd">
 			<arg line="/c mvn org.apache.maven.plugins:maven-dependency-plugin:copy-dependencies
-				-DincludeScope=runtime
-				-DexcludeArtifactIds=${exclude.artifactIds}" />
+				-DincludeScope=runtime" />
 		</exec>
 	</target>
 	<target name="copy-voyant-dependencies-unix" if="isUnix">
 		<exec dir="${jarpath}/Voyant" executable="sh">
 			<arg line="-c 'mvn org.apache.maven.plugins:maven-dependency-plugin:copy-dependencies
-				-DincludeScope=runtime
-				-DexcludeArtifactIds=${exclude.artifactIds}'" />
-		</exec>
-	</target>
-
-	
-	
-	
-	<!--
-	   Trombone related tasks
-	-->
-	<target name="download-trombone" depends="init">
-		<exec executable="git" dir="${jarpath}" failifexecutionfails="true" >
-			<arg line="clone https://github.com/voyanttools/trombone.git"/>
-		</exec> 
-	</target>
-	
-	<target name="build-trombone" depends="download-trombone,build-trombone-win,build-trombone-unix" />
-	<target name="build-trombone-win" if="isWindows">
-		<exec dir="${jarpath}/trombone" executable="cmd">
-			<arg line="/c mvn clean compile" />
-		</exec>
-	</target>
-	<target name="build-trombone-unix" if="isUnix">
-		<exec dir="${jarpath}/trombone" executable="sh">
-			<arg line="-c 'mvn clean compile'" />
+				-DincludeScope=runtime'" />
 		</exec>
 	</target>
 	
