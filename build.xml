@@ -3,7 +3,7 @@
 	
 	<property name="major"     value="2"/>
 	<property name="minor"     value="5"/>
-	<property name="patch"     value="2"/>
+	<property name="patch"     value="3"/>
 	
 	<property name="root"      location="."/>
 	
