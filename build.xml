@@ -98,7 +98,10 @@
 		
 		<!-- copy Voyant app -->
 		<copy todir="${dist}/${app}">
-			<fileset dir="${jarpath}/Voyant/src/main/webapp"/>
+			<fileset dir="${jarpath}/Voyant/src/main/webapp">
+				<exclude name="**/node_modules/**"/>
+				<exclude name="**/resources/docs/**"/>
+			</fileset>
 		</copy>
 
 		<mkdir dir="${dist}/${data}/trombone5_2"/>
