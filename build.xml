@@ -2,6 +2,7 @@
 <project xmlns:ivy="antlib:org.apache.ivy.ant" name="JettyDesktop" default="jar">
 	
 	<property file="build.properties" />
+	<property file="build.dev.properties" />
 	
 	<property name="root"      location="."/>
 	
@@ -163,7 +164,52 @@
 		<delete file="${dist}/${app}/WEB-INF/web.xml"/>
 		<move file="${dist}/${app}/WEB-INF/web-version.xml" tofile="${dist}/${app}/WEB-INF/web.xml"/>
 	</target>
+	<target name="set-voyant-version-dev">
+		<tstamp>
+			<format property="timestamp" pattern="yyyy/MM/dd"/>
+		</tstamp>
+		<xslt style="set-version.xsl" in="${dev_build_location}/${app}/WEB-INF/web.xml" out="${dev_build_location}/${app}/WEB-INF/web-version.xml">
+			<param name="version" expression="${major}.${minor}.${patch} [${timestamp}]"/>
+		</xslt>
+		<delete file="${dev_build_location}/${app}/WEB-INF/web.xml"/>
+		<move file="${dev_build_location}/${app}/WEB-INF/web-version.xml" tofile="${dev_build_location}/${app}/WEB-INF/web.xml"/>
+	</target>
 	
+	
+	<!-- dev versions that use local voyant and trombone -->
+	<target name="dev-compile">
+		<exec dir="${dev_trombone_location}" executable="cmd">
+			<arg line="/c mvn clean compile" />
+		</exec>
+		<exec dir="${dev_voyant_location}" executable="cmd">
+			<arg line="/c mvn clean" />
+		</exec>
+		<copy todir="${dev_voyant_location}/src/main/webapp/WEB-INF/classes">
+			<fileset dir="${dev_trombone_location}/target/classes"/>
+		</copy>
+		<exec dir="${dev_voyant_location}" executable="cmd">
+			<arg line="/c mvn compile" />
+		</exec>
+	</target>
+	<target name="dev-copy-dependencies">
+		<exec dir="${dev_voyant_location}" executable="cmd">
+			<arg line="/c mvn org.apache.maven.plugins:maven-dependency-plugin:copy-dependencies -DincludeScope=runtime -DexcludeArtifactIds=trombone" />
+		</exec>
+	</target>
+	<target name="dev-populate">
+		<delete dir="${dev_build_location}"/>
+		<mkdir dir="${dev_build_location}/${app}/WEB-INF/lib"/>
+		<copy todir="${dev_build_location}/${app}/WEB-INF/lib">
+			<fileset dir="${dev_voyant_location}/target/dependency"/>
+		</copy>
+		<copy todir="${dev_build_location}/${app}">
+			<fileset dir="${dev_voyant_location}/src/main/webapp">
+				<exclude name="**/node_modules/**"/>
+				<exclude name="**/resources/docs/**"/>
+			</fileset>
+		</copy>
+	</target>
+	<target name="dev-build" depends="dev-compile,dev-copy-dependencies,dev-populate,set-voyant-version-dev"/>
 	
 	
 	<!-- run the custom maven goal to copy voyant/trombone deps to voyant/target/dependency -->
