@@ -1,9 +1,7 @@
 <?xml version="1.0"?>
 <project xmlns:ivy="antlib:org.apache.ivy.ant" name="JettyDesktop" default="jar">
 	
-	<property name="major"     value="2"/>
-	<property name="minor"     value="5"/>
-	<property name="patch"     value="3"/>
+	<property file="build.properties" />
 	
 	<property name="root"      location="."/>
 	
