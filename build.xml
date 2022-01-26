@@ -111,7 +111,7 @@
 	
 
 	<!-- Create a jar to run a local version of Voyant -->
-	<target name="jar" depends="clean,compile,populate-dist">
+	<target name="jar" depends="clean,compile,populate-dist,set-voyant-version">
 		<!-- delete the nlp models file -->
 		<delete>
 			<fileset dir="${rootdist}">
@@ -156,18 +156,26 @@
 		</exec>
 	</target>
 	
+	<target name="set-voyant-version">
+		<xslt style="set-version.xsl" in="${dist}/${app}/WEB-INF/web.xml" out="${dist}/${app}/WEB-INF/web-version.xml">
+			<param name="version" expression="${major}.${minor}.${patch}"/>
+		</xslt>
+		<delete file="${dist}/${app}/WEB-INF/web.xml"/>
+		<move file="${dist}/${app}/WEB-INF/web-version.xml" tofile="${dist}/${app}/WEB-INF/web.xml"/>
+	</target>
+	
+	
+	
 	<!-- run the custom maven goal to copy voyant/trombone deps to voyant/target/dependency -->
 	<target name="copy-voyant-dependencies" depends="copy-voyant-dependencies-win,copy-voyant-dependencies-unix" />
 	<target name="copy-voyant-dependencies-win" if="isWindows">
 		<exec dir="${jarpath}/Voyant" executable="cmd">
-			<arg line="/c mvn org.apache.maven.plugins:maven-dependency-plugin:copy-dependencies
-				-DincludeScope=runtime" />
+			<arg line="/c mvn org.apache.maven.plugins:maven-dependency-plugin:copy-dependencies -DincludeScope=runtime" />
 		</exec>
 	</target>
 	<target name="copy-voyant-dependencies-unix" if="isUnix">
 		<exec dir="${jarpath}/Voyant" executable="sh">
-			<arg line="-c 'mvn org.apache.maven.plugins:maven-dependency-plugin:copy-dependencies
-				-DincludeScope=runtime'" />
+			<arg line="-c 'mvn org.apache.maven.plugins:maven-dependency-plugin:copy-dependencies -DincludeScope=runtime'" />
 		</exec>
 	</target>
 	
