@@ -20,6 +20,5 @@ local.properties
 .classpath
 .tomcatplugin
 .settings/
-/target
-src/main/webapp/WEB-INF/classes
-
+oauth.properties
+oauth.beta.properties
