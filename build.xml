@@ -182,7 +182,7 @@
 		<copy file="oauth.properties" tofile="${dist}/${app}/WEB-INF/classes/oauth.properties" overwrite="true" />
 	</target>
 	<target name="copy-spyral-oauth-properties-dev">
-		<copy file="oauth.properties" tofile="${dev_build_location}/${app}/WEB-INF/classes/oauth.properties" overwrite="true" />
+		<copy file="oauth.beta.properties" tofile="${dev_build_location}/${app}/WEB-INF/classes/oauth.properties" overwrite="true" />
 	</target>
 	
 	
