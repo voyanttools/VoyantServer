@@ -115,7 +115,7 @@
 	
 
 	<!-- Create a jar to run a local version of Voyant -->
-	<target name="jar" depends="clean,compile,populate-dist,copy-spyral-oauth-properties,set-voyant-version">
+	<target name="jar" depends="clean,compile,populate-dist,copy-tool-limits-config,copy-spyral-oauth-properties,copy-nssi-config,set-voyant-version">
 		<!-- delete the nlp models file -->
 		<delete>
 			<fileset dir="${rootdist}">
@@ -185,6 +185,20 @@
 		<copy file="oauth.beta.properties" tofile="${dev_build_location}/${app}/WEB-INF/classes/oauth.properties" overwrite="true" />
 	</target>
 	
+	<target name="copy-nssi-config">
+		<copy file="nssiconfig.properties" tofile="${dist}/${app}/WEB-INF/classes/ca/lincsproject/nssi/config.properties" overwrite="true" />
+	</target>
+	<target name="copy-nssi-config-dev">
+		<copy file="nssiconfig.properties" tofile="${dev_build_location}/${app}/WEB-INF/classes/ca/lincsproject/nssi/config.properties" overwrite="true" />
+	</target>
+	
+	<target name="copy-tool-limits-config">
+		<copy file="tool-limits-config.properties" tofile="${dist}/${app}/WEB-INF/classes/org/voyanttools/trombone/limits/config.properties" overwrite="true" />
+	</target>
+	<target name="copy-tool-limits-config-dev">
+		<copy file="tool-limits-config.dev.properties" tofile="${dev_build_location}/${app}/WEB-INF/classes/org/voyanttools/trombone/limits/config.properties" overwrite="true" />
+	</target>
+	
 	
 	<!-- dev versions that use local voyant and trombone -->
 	<target name="dev-compile">
@@ -219,7 +233,7 @@
 			</fileset>
 		</copy>
 	</target>
-	<target name="dev-build" depends="dev-compile,dev-copy-dependencies,dev-populate,copy-spyral-oauth-properties-dev,set-voyant-version-dev"/>
+	<target name="dev-build" depends="dev-compile,dev-copy-dependencies,dev-populate,copy-tool-limits-config-dev,copy-spyral-oauth-properties-dev,copy-nssi-config-dev,set-voyant-version-dev"/>
 	
 	
 	<!-- run the custom maven goal to copy voyant/trombone deps to voyant/target/dependency -->
