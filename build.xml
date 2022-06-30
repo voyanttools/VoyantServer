@@ -115,7 +115,7 @@
 	
 
 	<!-- Create a jar to run a local version of Voyant -->
-	<target name="jar" depends="clean,compile,populate-dist,copy-tool-limits-config,copy-spyral-oauth-properties,copy-nssi-config,set-voyant-version">
+	<target name="jar" depends="clean,compile,populate-dist,copy-tool-limits-config,copy-spyral-oauth-properties,copy-nssi-config,set-voyant-version,set-entities-enabled-false">
 		<!-- delete the nlp models file -->
 		<delete>
 			<fileset dir="${rootdist}">
@@ -129,7 +129,7 @@
 	</target>
 	
 	<!-- Create a jar to run a local version of Voyant, including nlp -->
-	<target name="jar-nlp" depends="clean,compile,populate-dist">
+	<target name="jar-nlp" depends="clean,compile,populate-dist,copy-tool-limits-config,copy-spyral-oauth-properties,copy-nssi-config,set-voyant-version,set-entities-enabled-true">
 		<zip destfile="${rootdist}/VoyantServerWithModels${major}_${minor}_${patch}.zip"
  			compress="true">
 			<fileset dir="${rootdist}" />
@@ -176,6 +176,35 @@
 		</xslt>
 		<delete file="${dev_build_location}/${app}/WEB-INF/web.xml"/>
 		<move file="${dev_build_location}/${app}/WEB-INF/web-version.xml" tofile="${dev_build_location}/${app}/WEB-INF/web.xml"/>
+	</target>
+	
+	<target name="set-entities-enabled-true">
+		<xslt style="set-entities.xsl" in="${dist}/${app}/WEB-INF/web.xml" out="${dist}/${app}/WEB-INF/web-entities.xml">
+			<param name="entitiesenabled" expression="true"/>
+		</xslt>
+		<delete file="${dist}/${app}/WEB-INF/web.xml"/>
+		<move file="${dist}/${app}/WEB-INF/web-entities.xml" tofile="${dist}/${app}/WEB-INF/web.xml"/>
+	</target>
+	<target name="set-entities-enabled-false">
+		<xslt style="set-entities.xsl" in="${dist}/${app}/WEB-INF/web.xml" out="${dist}/${app}/WEB-INF/web-entities.xml">
+			<param name="entitiesenabled" expression="false"/>
+		</xslt>
+		<delete file="${dist}/${app}/WEB-INF/web.xml"/>
+		<move file="${dist}/${app}/WEB-INF/web-entities.xml" tofile="${dist}/${app}/WEB-INF/web.xml"/>
+	</target>
+	<target name="set-entities-enabled-true-dev">
+		<xslt style="set-entities.xsl" in="${dev_build_location}/${app}/WEB-INF/web.xml" out="${dev_build_location}/${app}/WEB-INF/web-entities.xml">
+			<param name="entitiesenabled" expression="true"/>
+		</xslt>
+		<delete file="${dev_build_location}/${app}/WEB-INF/web.xml"/>
+		<move file="${dev_build_location}/${app}/WEB-INF/web-entities.xml" tofile="${dev_build_location}/${app}/WEB-INF/web.xml"/>
+	</target>
+	<target name="set-entities-enabled-false-dev">
+		<xslt style="set-entities.xsl" in="${dev_build_location}/${app}/WEB-INF/web.xml" out="${dev_build_location}/${app}/WEB-INF/web-entities.xml">
+			<param name="entitiesenabled" expression="false"/>
+		</xslt>
+		<delete file="${dev_build_location}/${app}/WEB-INF/web.xml"/>
+		<move file="${dev_build_location}/${app}/WEB-INF/web-entities.xml" tofile="${dev_build_location}/${app}/WEB-INF/web.xml"/>
 	</target>
 	
 	<target name="copy-spyral-oauth-properties">
@@ -233,7 +262,7 @@
 			</fileset>
 		</copy>
 	</target>
-	<target name="dev-build" depends="dev-compile,dev-copy-dependencies,dev-populate,copy-tool-limits-config-dev,copy-spyral-oauth-properties-dev,copy-nssi-config-dev,set-voyant-version-dev"/>
+	<target name="dev-build" depends="dev-compile,dev-copy-dependencies,dev-populate,copy-tool-limits-config-dev,copy-spyral-oauth-properties-dev,copy-nssi-config-dev,set-voyant-version-dev,set-entities-enabled-true-dev"/>
 	
 	
 	<!-- run the custom maven goal to copy voyant/trombone deps to voyant/target/dependency -->
