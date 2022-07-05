@@ -207,10 +207,16 @@
 		<move file="${dev_build_location}/${app}/WEB-INF/web-entities.xml" tofile="${dev_build_location}/${app}/WEB-INF/web.xml"/>
 	</target>
 	
-	<target name="copy-spyral-oauth-properties">
+	<target name="check-for-oauth-properties">
+		<available file="oauth.properties" property="has-oauth"/>
+	</target>
+	<target name="copy-spyral-oauth-properties" depends="check-for-oauth-properties" if="has-oauth">
 		<copy file="oauth.properties" tofile="${dist}/${app}/WEB-INF/classes/oauth.properties" overwrite="true" />
 	</target>
-	<target name="copy-spyral-oauth-properties-dev">
+	<target name="check-for-oauth-properties-dev">
+		<available file="oauth.beta.properties" property="has-oauth-dev"/>
+	</target>
+	<target name="copy-spyral-oauth-properties-dev" depends="check-for-oauth-properties-dev" if="has-oauth-dev">
 		<copy file="oauth.beta.properties" tofile="${dev_build_location}/${app}/WEB-INF/classes/oauth.properties" overwrite="true" />
 	</target>
 	
