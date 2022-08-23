@@ -349,14 +349,15 @@ public class VoyantServerTab extends JPanel implements ExecutorInterface{
     
     private URI getUri() {
 		String host	= serverConfigMap.getIP();
-		if ( host == null || host.length() == 0 )
-			host	= "127.0.0.1";
+		if ( host == null || host.length() == 0 ) host = "127.0.0.1";
 		
-		String defaultUri	= serverConfigMap.getDefaultWebUri();
-		if ( defaultUri == null )
-			defaultUri = "/";
+		String contextPath = serverConfigMap.getContextPath();
+		if (contextPath == null) contextPath = "/";
 		
-		return java.net.URI.create("http://" + host + ":" + serverConfigMap.getPort() + defaultUri );
+		String queryParams = serverConfigMap.getQueryParameters();
+		if (queryParams == null) queryParams = "";
+		
+		return java.net.URI.create("http://" + host + ":" + serverConfigMap.getPort() + contextPath + queryParams );
    	
     }
     

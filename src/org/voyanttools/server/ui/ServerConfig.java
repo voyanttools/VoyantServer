@@ -3,8 +3,6 @@ package org.voyanttools.server.ui;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 import java.util.Properties;
 
 import org.aw20.jettydesktop.ui.ServerConfigMap;
@@ -48,6 +46,12 @@ public class ServerConfig {
 			}
 			else if (name.equals("host")) {
 				serverConfigMap.setIP(prop==null ? val : prop);
+			}
+			else if (name.equals("context_path")) {
+				serverConfigMap.setContextPath(prop==null ? val : prop);
+			}
+			else if (name.equals("query_parameters")) {
+				serverConfigMap.setQueryParameters(prop==null ? val : prop);
 			}
 //			else if (name.equals("logs_file")) {
 //				serverConfigMap.setLogsFile(prop==null ? val.equals("true") : prop.equals("true"));

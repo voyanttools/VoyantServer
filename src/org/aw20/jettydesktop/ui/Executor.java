@@ -117,6 +117,7 @@ public class Executor extends Object {
 			programArgs.add(options.getIP());
 
 		programArgs.add(options.getPort());
+		programArgs.add(options.getContextPath());
 		programArgs.add(options.getWebFolder());
 		programArgs.add( String.valueOf(adminPort) );
 

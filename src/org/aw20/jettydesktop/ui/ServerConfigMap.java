@@ -70,6 +70,22 @@ public class ServerConfigMap extends HashMap<String, String> implements Serializ
 		return get("SERVER_PORT");
 	}
 	
+	public void setContextPath(String contextPath) {
+		put("CONTEXT_PATH", contextPath);
+	}
+	
+	public String getContextPath() {
+		return get("CONTEXT_PATH");
+	}
+	
+	public void setQueryParameters(String queryParams) {
+		put("QUERY_PARAMS", queryParams);
+	}
+	
+	public String getQueryParameters() {
+		return get("QUERY_PARAMS");
+	}
+	
 	public void setWebFolder(String webfolder){
 		put("WEBFOLDER", webfolder);
 	}
