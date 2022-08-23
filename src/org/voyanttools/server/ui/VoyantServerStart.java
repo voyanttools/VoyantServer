@@ -150,7 +150,7 @@ public class VoyantServerStart extends Start {
 		mntmSupportSite.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					java.awt.Desktop.getDesktop().browse(java.net.URI.create("http://docs.voyant-tools.org/voyant-server/"));
+					java.awt.Desktop.getDesktop().browse(java.net.URI.create("https://voyant-tools.org/docs/#!/guide/server"));
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
