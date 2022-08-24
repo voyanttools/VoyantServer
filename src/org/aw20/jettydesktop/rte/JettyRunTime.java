@@ -46,16 +46,16 @@ public class JettyRunTime extends Object {
 	public static void main(String[] args) {
 		System.out.println( "Jetty Version: " + Server.getVersion() );
 		
-		if ( args.length == 3 )
-			System.out.println( "http://*:" + args[0] );
+		if ( args.length == 4 )
+			System.out.println( "http://*:" + args[0] + args[1]);
 		else
-			System.out.println( "http://" + args[0] + ":" + args[1] );
+			System.out.println( "http://" + args[0] + ":" + args[1] + args[2]);
 
 		try {
-			if ( args.length == 3 )
-				new JettyRunTime( null, args[0], args[1], args[2] );
+			if ( args.length == 4 )
+				new JettyRunTime( null, args[0], args[1], args[2], args[3] );
 			else
-				new JettyRunTime( args[0], args[1], args[2], args[3] );
+				new JettyRunTime( args[0], args[1], args[2], args[3], args[4] );
 		} catch (Exception e) {
 			System.out.println( e.getMessage() );
 		}
@@ -63,7 +63,7 @@ public class JettyRunTime extends Object {
 
 	private Server server;
 	
-	public JettyRunTime( String ip, String port, String webapp, String adminport ) throws Exception{
+	public JettyRunTime( String ip, String port, String contextPath, String webapp, String adminport ) throws Exception{
 		System.out.println( "Jetty starting up ... please wait" );
 		
         // Set JSP to use Standard JavaC always
@@ -101,7 +101,7 @@ public class JettyRunTime extends Object {
 		
 		context.setDescriptor( webapp + "/WEB-INF/web.xml");
 		context.setResourceBase( webapp );
-		context.setContextPath("/");
+		context.setContextPath( contextPath );
 		context.setParentLoaderPriority(true);
 		context.setDefaultsDescriptor("org/aw20/jettydesktop/rte/webdefault.xml");
 		

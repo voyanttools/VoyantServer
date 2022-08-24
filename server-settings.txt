@@ -30,13 +30,16 @@ memory = 1024
 # leave this value blank.
 data_directory =
 
-# The URI path (after the domain) to use (default is /). This is a good way to provide
-# load a corpus by default, ex: uri_path = /?input=http://cbc.ca/news/ or /?corpus=333.333
+# The context path (after the host) to use (default is /). 
+context_path = /
+
+# The query parameters to use after the path. This is a good way to provide
+# load a corpus by default, ex: query_parameters = ?input=http://cbc.ca/news/ or ?corpus=333.333
 # (where 333.333 is an existing local corpus).
 # It's also possible to build a custom menu for the open menu on the front page. Separate
 # the corpus ID and a label by a colon and separate multiple entries by commas, making sure
-# to escape characters (like spaces), eg:  /?openMenu=444.444:Corpus+One;555.555:Corpus+Two
-uri_path = /
+# to escape characters (like spaces), eg:  ?openMenu=444.444:Corpus+One;555.555:Corpus+Two
+query_parameters =
 
 # This allows you to limit traffic to the specific host (domain or IP). By default (127.0.0.1)
 # it is set to be restrictive and to only accept local requests (in order to favour privacy).
