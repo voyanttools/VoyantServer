@@ -135,6 +135,20 @@
 			<fileset dir="${rootdist}" />
 		</zip>
 	</target>
+	
+	<!-- specialized for uploading to main server -->
+	<target name="main-server" depends="clean,compile,populate-dist,copy-tool-limits-config,copy-spyral-oauth-properties,copy-nssi-config,set-voyant-version,set-entities-enabled-true">
+		<!-- delete the nlp models file, they are already on the server -->
+		<delete>
+			<fileset dir="${rootdist}">
+				<include name="**/stanford*models.jar"/>
+			</fileset>
+		</delete>
+		<zip destfile="${rootdist}/VoyantServer${major}_${minor}_${patch}.zip" 
+			compress="true">
+			<fileset dir="${rootdist}" />
+		</zip>
+	</target>
 
 
 	
@@ -265,6 +279,13 @@
 			<fileset dir="${dev_voyant_location}/src/main/webapp">
 				<exclude name="**/node_modules/**"/>
 				<exclude name="**/resources/docs/**"/>
+			</fileset>
+		</copy>
+		<copy todir="${dev_build_location}/${app}/resources/voyant/current" overwrite="true">
+			<fileset dir="${dev_voyant_server_location}/resources/voyant/current">
+				<include name="voyant.js"/>
+				<include name="voyant.min.js"/>
+				<include name="voyant.min.map.js"/>
 			</fileset>
 		</copy>
 	</target>
