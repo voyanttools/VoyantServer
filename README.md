@@ -21,6 +21,8 @@ If you receive an error message on Mac OS:
 
 You may open VoyantServer via the terminal as a workaround using: `java -jar VoyantServer.jar`
 
+NB: you must run the above command from the directory into which you extracted the JAR file.
+
 
 ## License ##
 Voyant Server is released under the same license as JettyDesktop, the GNU General Public License v3.0 (see license-GPL3.txt in this directory).
