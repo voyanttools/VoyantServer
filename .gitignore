@@ -9,6 +9,7 @@ _app
 bin
 data
 dist
+dev
 lib
 tmp
 work
