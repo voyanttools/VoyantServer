@@ -289,7 +289,18 @@
 			</fileset>
 		</copy>
 	</target>
-	<target name="dev-build" depends="dev-compile,dev-copy-dependencies,dev-populate,copy-tool-limits-config-dev,copy-spyral-oauth-properties-dev,copy-nssi-config-dev,set-voyant-version-dev,set-entities-enabled-true-dev"/>
+	<target name="dev-server" depends="dev-compile,dev-copy-dependencies,dev-populate,copy-tool-limits-config-dev,copy-spyral-oauth-properties-dev,copy-nssi-config-dev,set-voyant-version-dev,set-entities-enabled-true-dev">
+		<!-- delete the nlp models file, they are already on the server -->
+		<delete>
+			<fileset dir="${dev_build_location}">
+				<include name="**/stanford*models.jar"/>
+			</fileset>
+		</delete>
+		<zip destfile="${dev_build_location}/VoyantServer_dev.zip" 
+			compress="true">
+			<fileset dir="${dev_build_location}" />
+		</zip>
+	</target>
 	
 	
 	<!-- run the custom maven goal to copy voyant/trombone deps to voyant/target/dependency -->
