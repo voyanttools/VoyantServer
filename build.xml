@@ -255,14 +255,11 @@
 			<arg line="/c mvn clean compile" />
 		</exec>
 		<exec dir="${dev_voyant_location}" executable="cmd">
-			<arg line="/c mvn clean" />
+			<arg line="/c mvn clean compile" />
 		</exec>
 		<copy todir="${dev_voyant_location}/src/main/webapp/WEB-INF/classes">
 			<fileset dir="${dev_trombone_location}/target/classes"/>
 		</copy>
-		<exec dir="${dev_voyant_location}" executable="cmd">
-			<arg line="/c mvn compile" />
-		</exec>
 	</target>
 	<target name="dev-copy-dependencies">
 		<exec dir="${dev_voyant_location}" executable="cmd">
