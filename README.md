@@ -1,6 +1,6 @@
 ## Voyant Server ##
 
-Voyant Server is a web application launcher for Voyant Tools – it makes it easy to run a stand-alone instance of Voyant Tools on your local machine, which has several potential advantages (performance, security, privacy, reliability, etc.) compared to the [hosted version](http://voyant-tools.org).
+Voyant Server is a web application launcher for Voyant Tools – it makes it easy to run a stand-alone instance of Voyant Tools on your local machine, which has several potential advantages (performance, security, privacy, reliability, etc.) compared to the [hosted version](https://voyant-tools.org).
 
 ## Installation ##
 
@@ -12,7 +12,7 @@ Once you open VoyantServer.jar a controller application will appear (that allows
 
 ### Java Version ###
 
-Voyant Server requires an older version of Java and may not work on versions newer than 11.
+Voyant Server requires Java 11 and may not work with newer versions.
 
 ### Mac OS ###
 
