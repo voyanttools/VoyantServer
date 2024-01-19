@@ -12,7 +12,7 @@ Once you open VoyantServer.jar a controller application will appear (that allows
 
 ### Java Version ###
 
-Voyant Server requires Java 11 and may not work with newer versions.
+Voyant Server requires Java 11 and may not work with other versions.
 
 ### Mac OS ###
 
