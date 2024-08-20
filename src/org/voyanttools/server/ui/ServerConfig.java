@@ -22,6 +22,7 @@ public class ServerConfig {
 			setMemoryJVM("1024");
 			setLogsFile(false);
 			setAllowInput(true);
+			setAllowPrivateIP(true);
 		}};
 		Properties properties = new Properties();
 		serverConfigMap.put("lastModified", String.valueOf(file.lastModified()));

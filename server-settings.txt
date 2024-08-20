@@ -74,3 +74,8 @@ allow_input = true
 # The default value is true (to allow downloads), set this to false to hide the download and
 # modify buttons in the Documents panel.
 allow_download = true
+
+# This allows you to prevent private IPs being used as corpus inputs.
+# By default private IPs are allowed for VoyantServer, but
+# they should probably be disallowed for a public server. 
+allow_private_ip = true

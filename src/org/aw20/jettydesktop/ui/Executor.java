@@ -94,6 +94,10 @@ public class Executor extends Object {
 		if (options.getAllowDownload()==false) {
 			programArgs.add("-Dorg.voyanttools.server.allowdownload=false");
 		}
+		// default is false in Voyant
+		if (options.getAllowPrivateIP()==true) {
+			programArgs.add("-Dorg.voyanttools.server.allowprivateip=true");
+		}
 
 		if (options.containsKey("open_menu")) {
 			String openMenu = options.get("open_menu");

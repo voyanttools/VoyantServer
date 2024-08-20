@@ -167,4 +167,12 @@ public class ServerConfigMap extends HashMap<String, String> implements Serializ
 	public boolean getAllowDownload() {
 		return this.containsKey("allow_download") && get("allow_download").equals("false") ? false : true;
 	}
+	
+	public void setAllowPrivateIP(boolean allow) {
+		put("allow_private_ip", allow ? "true" : "false");
+	}
+
+	public boolean getAllowPrivateIP() {
+		return this.containsKey("allow_private_ip") && get("allow_private_ip").equals("false") ? false : true;
+	}
 }
