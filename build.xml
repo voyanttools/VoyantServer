@@ -122,7 +122,7 @@
 				<include name="**/stanford*models.jar"/>
 			</fileset>
 		</delete>
-		<zip destfile="${rootdist}/VoyantServer${major}_${minor}_${patch}.zip" 
+		<zip destfile="${rootdist}/VoyantServer.zip" 
 			compress="true">
 			<fileset dir="${rootdist}" />
 		</zip>
@@ -130,13 +130,13 @@
 	
 	<!-- Create a jar to run a local version of Voyant, including nlp -->
 	<target name="jar-nlp" depends="clean,compile,populate-dist,copy-tool-limits-config,copy-spyral-oauth-properties,copy-nssi-config,set-voyant-version,set-entities-enabled-true">
-		<zip destfile="${rootdist}/VoyantServerWithModels${major}_${minor}_${patch}.zip"
+		<zip destfile="${rootdist}/VoyantServerWithModels.zip"
  			compress="true">
 			<fileset dir="${rootdist}" />
 		</zip>
 	</target>
 	
-	<!-- specialized for uploading to main server -->
+	<!-- specialized for uploading to main server, only difference between this and "jar" is that entities are enabled -->
 	<target name="main-server" depends="clean,compile,populate-dist,copy-tool-limits-config,copy-spyral-oauth-properties,copy-nssi-config,set-voyant-version,set-entities-enabled-true">
 		<!-- delete the nlp models file, they are already on the server -->
 		<delete>
@@ -144,7 +144,7 @@
 				<include name="**/stanford*models.jar"/>
 			</fileset>
 		</delete>
-		<zip destfile="${rootdist}/VoyantServer${major}_${minor}_${patch}.zip" 
+		<zip destfile="${rootdist}/VoyantServer.zip" 
 			compress="true">
 			<fileset dir="${rootdist}" />
 		</zip>
