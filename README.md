@@ -8,9 +8,9 @@ Voyant Server is a web application launcher for Voyant Tools – it makes it eas
    * [Adoptium](https://adoptium.net/temurin/releases/?version=11)
    * [Oracle](https://www.oracle.com/java/technologies/javase/jdk11-archive-downloads.html)
 
-2. See the [latest release](https://github.com/voyanttools/VoyantServer/releases/latest) and download the VoyantServer zip file. Unzip the file (be sure to actually extract the contents into a real directory) and double-click on the VoyantServer.jar file (on Macs you may need to Ctrl-click on the VoyantServer.jar, select open and confirm the opening – this is because of security precautions in OS X).
+2. Go to the [latest release](https://github.com/voyanttools/VoyantServer/releases/latest) and download the VoyantServer zip file. Unzip the file (be sure to actually extract the contents into a real directory) and double-click on the VoyantServer.jar file (on Macs you may need to Ctrl-click on the VoyantServer.jar, select open and confirm the opening – this is because of security precautions in OS X).
 
-3. Once you open VoyantServer.jar a controller application will appear (that allows you stop stop the server, see error messages, change settings, etc.) and a new browser will also appear with Voyant Tools. That's it!
+3. Running the VoyantServer.jar will open a controller window that automatically starts the server and opens the website in a new browser tab. The controller window has functionality to stop the server, re-open the website, view logs, and change the port and maximum memory used by the server.
 
 ## Troubleshooting ##
 
