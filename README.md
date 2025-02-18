@@ -12,6 +12,8 @@ Voyant Server is a web application launcher for Voyant Tools – it makes it eas
 
 3. Running the VoyantServer.jar will open a controller window that automatically starts the server and opens the website in a new browser tab. The controller window has functionality to stop the server, re-open the website, view logs, and change the port and maximum memory used by the server.
 
+For more detailed instructions, see the [tutorial in the wiki](https://github.com/voyanttools/VoyantServer/wiki/VoyantServer-Tutorial).
+
 ## Troubleshooting ##
 
 ### Java Version ###
