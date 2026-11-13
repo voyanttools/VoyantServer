@@ -31,7 +31,7 @@ import org.voyanttools.server.ui.awt.VoyantServerTab;
  */
 public class VoyantServerStart extends Start {
 
-	public static final String VERSION = "2.6.22";
+	public static final String VERSION = "2.6.24";
 	
 	private JFrame frame;
 	
